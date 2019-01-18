@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pictgram</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>" role="alert"><%= value %></div>
+<% end %>
+<nav class="navbar navbar-default navbar-fixed-top navbar-transparent">
+      <div class="container">
+      <% if logged_in? %>
+        <%= link_to topics_path do %>
+          <span><%= image_tag "icons/logo.png", class: "navbar-brand" %></span> 
+        <% end %>
+        <% else %>
+        <%= link_to topics_path do %>
+          <span><%= image_tag "icons/logo.png", class: "navbar-brand" %></span>
+        <% end %>
+      <% end %>
+
+        
+        <ul class="nav navbar-nav navbar-right">
+          <% if logged_in? %>
+              <li>
+              <%= link_to("/users/#{current_user.id}") do %>
+                <%= image_tag 'icons/my-page.png' %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to favorites_path do %>
+                <%= image_tag 'icons/heart.png' %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to new_topic_path do %>
+                <%= image_tag "icons/camera.png" %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to logout_path, method: :delete do %>
+                <%= image_tag "icons/logout.png" %>
+              <% end %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to new_user_path do %>
+                <%= image_tag "icons/register.png" %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to login_path do %>
+                <%= image_tag "icons/login.png" %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+    <%= yield %>
+  <script>
+  $(".top-hero-wrapper").bgswitcher({
+    images: ["assets/pic-2.jpg", "assets/pic-3.jpg", "assets/pic-1.jpg"],
+    interval: 4000,
+    duration: 2000
+  });
+  $(function(){
+    $(".alert").not("#error_explanation").fadeOut(5000);
+  });
+  </script>
+  </body>
+</html>

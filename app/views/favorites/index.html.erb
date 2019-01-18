@@ -1,0 +1,59 @@
+<div class="topic-index-wrapper">
+  <div class="container">
+    <% if @favorite_topics.count == 0 %>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3" style="margin-top:50px;">
+        <p style="text-align:center;">まだお気に入りはありません。<br>気に入った投稿の<%= image_tag 'icons/heart-black.png', class: 'favorite' %>マークをクリックしてお気に入りに追加しましょう。</p>
+      </div>
+    </div>
+    <% else%>
+
+
+
+    <% @favorite_topics.each do |topic| %>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="topic-index-single">
+            <h2 class="topic-author">
+            <%= link_to(topic.user.name, "users/#{topic.user_id}") %>
+            </h2>
+            <%= image_tag topic.image.url %>
+
+
+
+            <% if !topic.favorite_users.include?(current_user) %>
+            <%= link_to favorites_path(topic_id: topic.id), method: :post do %>
+
+            <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
+            <%= topic.favorite_users.count %>
+            <% end %>
+            <% else %>
+            <%= link_to("/favorites/#{topic.id}/destroy", {method: "delete"}) do %>
+                <%= image_tag 'icons/heart-pink.png', class: 'topic-index-icon' %>
+            <%= topic.favorite_users.count %>
+
+            <% end %>
+            <% end %>
+
+
+            <%= image_tag 'icons/comment.png', class: 'topic-index-icon' %>
+            <div class="topic-box">
+        <%= link_to topic_path(topic.id) do %>
+        <div class="topic-text">
+        <%= truncate_description(topic.description) %>
+      </div>
+      <% end %>
+            <% if topic.user.id == current_user.id %>
+            <%= link_to("/topics/#{topic.id}/edit", :class => "edit-pencil-icon") do %>
+            <%= image_tag 'icons/pencil.png' %>
+            <% end %>
+            <% end %>
+          </div>
+        
+        </div>
+      </div>
+      </div>
+    <% end %>
+    <% end %>
+  </div>
+</div>

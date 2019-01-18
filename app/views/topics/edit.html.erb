@@ -1,0 +1,42 @@
+<div class="topic-new-wrapper" >
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <% if @topic.errors.any? %>
+          <div id="error_explanation" class="alert alert-warning">
+            <ul>
+              <% @topic.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>        
+        <h1 class="text-center">Update Picture</h1>
+        <%= form_for @topic do |f| %>
+          <div class="form-group">
+            <%= f.label :image %>
+            <!--<%= f.file_field :image %>-->
+            <figure class="thumbnail">
+            <%= image_tag @topic.image.url %>
+            </figure>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :description %>
+            <%= f.text_area :description, class: 'form-control' %>
+
+          </div>
+
+          <%= f.submit '更新', class: 'btn btn-black btn-block' %>
+          <%= link_to("/topics/#{@topic.id}/", {method: "delete"}) do %>
+          <button class="btn btn-danger btn-block">削除</button>
+          <% end %>
+
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

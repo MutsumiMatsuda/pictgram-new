@@ -1,0 +1,29 @@
+// Place all the styles related to the topics controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.btn-black {
+  color: #565656;
+  border: 1px solid #565656;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 20px;
+  background-color: rgba(0,0,0,0.0);
+
+  &:hover {
+    color: #565656;
+  }
+}
+
+.btn-danger{
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 20px;
+
+}
+
+.topic-new-wrapper {
+  padding-top: 120px;
+}

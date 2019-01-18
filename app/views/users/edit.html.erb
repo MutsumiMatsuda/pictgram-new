@@ -1,0 +1,39 @@
+<div class="users-new-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4 users-new-container">
+        <% if @user.errors.any? %>
+          <div id="error_explanation" class="alert alert-warning">
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %> 
+        <h1 class="text-center text-white">Profile</h1>
+        <%= form_for @user do |f| %>
+          <div class="form-group">
+            <%= f.label :image, class: 'text-white' %>
+            <%= f.file_field :image, class: 'text-white' %>
+          </div>
+          <div class="form-group">
+          <%= f.label "画像を削除", class: 'text-white' %>
+
+          <%= f.check_box :remove_image %>
+          </div>
+          <div class="form-group">
+            <%= f.label :name, class: 'text-white' %>
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :description, class: 'text-white' %>
+            <%= f.text_area :description, class: 'form-control' %>
+          </div>
+
+          <%= f.submit "更新", class: 'btn-block btn-white' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
