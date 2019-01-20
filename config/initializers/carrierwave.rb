@@ -15,7 +15,7 @@ CarrierWave.configure do |config|
 
   #config.fog_directory = ENV['AWS_S3_BUCKET']
   #config.asset_host = ENV['AWS_S3_URL']
-  config.fog_directory = 'mimg4tmat-pictgramnew'
+  config.fog_directory = 'img4tmat-pictgramnew'
   config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/img4tmat-pictgramnew'
 
 end
