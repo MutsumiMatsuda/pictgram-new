@@ -18,7 +18,7 @@
       <div class="container">
       <% if logged_in? %>
         <%= link_to topics_path do %>
-          <span><%= image_tag "icons/logo.png", class: "navbar-brand" %></span> 
+          <span><%= image_tag "icons/logo.png", class: "navbar-brand" %></span>
         <% end %>
         <% else %>
         <%= link_to root_path do %>
@@ -26,7 +26,7 @@
         <% end %>
       <% end %>
 
-        
+
         <ul class="nav navbar-nav navbar-right">
           <% if logged_in? %>
               <li>
@@ -66,7 +66,7 @@
     </nav>
     <%= yield %>
   <script>
-  $(".top-hero-wrapper").bgswitcher({
+  $(".top-hero-wrapper").bgSwitcher({
     images: ["assets/pic-2.jpg", "assets/pic-3.jpg", "assets/pic-1.jpg"],
     interval: 4000,
     duration: 2000
