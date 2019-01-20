@@ -37,6 +37,11 @@ gem 'bootstrap-sass'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 #gem 'fog'
+gem "jquery-rails"
+gem 'jquery-turbolinks'
+gem 'bcrypt'
+gem "carrierwave"
+gem "fog"
 gem 'fog-aws'
 
 
@@ -48,9 +53,6 @@ group :development, :test do
   gem 'pry-doc'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
-  gem "jquery-rails"
-  gem 'bcrypt'
-  gem "carrierwave"
 end
 
 group :development do
