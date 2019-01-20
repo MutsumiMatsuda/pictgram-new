@@ -41,6 +41,7 @@ gem "jquery-rails"
 gem 'jquery-turbolinks'
 gem 'bcrypt'
 gem "carrierwave"
+gem "aws-sdk-s3"
 gem "fog"
 gem 'fog-aws'
 
