@@ -60,7 +60,7 @@ h1, h2 {
   h1 {
     font-size: 56px;
     margin-bottom: 20px;
-    
+
   }
 
   h2 {
@@ -74,6 +74,9 @@ h1, h2 {
 .users-new-wrapper {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-image: image-url('bg-top.png');
   background-position: center center;
   background-repeat: no-repeat;
@@ -81,9 +84,10 @@ h1, h2 {
   background-size: cover;
   background-color: #464646;
 
-  .users-new-container {
-    padding-top: 220px;
-
+  .container {
+    @media (max-width:768px){
+    width: inherit;
+    }
     .form-group {
       margin-bottom: 20px;
     }
