@@ -44,7 +44,7 @@ gem "carrierwave"
 gem "aws-sdk-s3"
 gem "fog"
 gem 'fog-aws'
-
+gem 'gon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
