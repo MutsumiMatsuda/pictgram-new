@@ -1,0 +1,42 @@
+<div class="topic-index-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="topic-index-single">
+          <h2 class="topic-author"><%= @topic.user.name %></h2>
+          <%= image_tag @topic.image.url %>
+
+          <% if !@topic.favorite_users.include?(current_user) %>
+            <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
+          <% else %>
+            <%= image_tag 'icons/heart-pink.png', class: 'topic-index-icon' %>
+          <% end %>
+          <%= @topic.favorite_users.count %>
+          <%= scrTopIcon '/topics', 'index', 0, 'icons/list.png', 'topic-index-icon' %>
+
+          <p class="topic-text">
+            <%= @topic.description %>
+          </p>
+          <%# コメントの表示 %>
+          <% if @topic.comments.count > 0 %>
+            <% @topic.comments.each do |comment| %>
+              <p><%= comment.lines %></p>
+            <% end %>
+          <% else %>
+            <p>まだコメントがありません</p>
+          <% end %>
+        </div>
+        <%= form_for :comments, url: comments_path do |f| %>
+          <div class="form-group">
+            <%= f.label :"コメント投稿", class: "text-black" %>
+            <input type="text" name="lines" id="lines" value="" class="form-control"/>
+          </div>
+          <input type="hidden" name="topic_id" id="topic_id" value="<%= @topic.id.to_s.html_safe =%>" />
+          <input type="hidden" name="scrtop" id="scrtop" value="<%= @scrtop.to_s.html_safe =%>" />
+          <%= f.submit "投稿", class: "btn-block btn-black" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= putScrTopJs %>

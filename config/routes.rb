@@ -20,12 +20,25 @@ Rails.application.routes.draw do
   # post '/topics/:id/edit', to: 'topics#update'
   # delete '/topics/:id/edit', to: 'topics#destroy'
   resources :topics
-  resources :favorites
+  # 松田変更
+  get '/topics?lstScrtop=#', to: 'topics#index'
+  # 初期表示用
+  get '/topics/show?topic_id=#&lstScrtop=#', to: 'topics#show'
 
+  #resources :favorites
+  get 'favorites/show', to: 'favorites#show'
+  get 'favorites/index', to: 'favorites#index'
 
-  get 'favorites/index'
-  post '/favorites/:topic_id/create', to: 'favorites#create'
-  delete '/favorites/:topic_id/destroy', to: 'favorites#destroy'
+  #post '/favorites/:topic_id/create', to: 'favorites#create'
+  #post '/favorites/:topic_id/destroy', to: 'favorites#destroy'
+  get '/favorites/add', to: 'favorites#add'
+  get '/favorites/remove', to: 'favorites#remove'
+
+  # get 'users/:id' => 'users#show'
+
+  get '/comments', to: 'comments#index'
+  get '/comments/new?topic_id=#&scrtop=#', to: 'comments#new'
+  post '/comments', to: 'comments#create'
 
   # get 'users/:id' => 'users#show'
 end

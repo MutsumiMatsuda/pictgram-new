@@ -1,38 +1,98 @@
 <div class="topic-index-wrapper">
   <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <div class="topic-index-single">
-             <h2 class="topic-author">
-            <%= link_to @topic.user.name, user_path(@topic.user_id) %>
-            </h2>
-            <%= image_tag @topic.image.url %>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="topic-index-single">
+          <h2 class="topic-author"><%= @topic.user.name %></h2>
+          <%= image_tag @topic.image.url %>
 
-            <% if !@topic.favorite_users.include?(current_user) %>
-            <%= link_to favorites_path(topic_id: @topic.id), method: :post do %>
+          <% if !@topic.favorite_users.include?(current_user) %>
+            <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
+          <% else %>
+            <%= image_tag 'icons/heart-pink.png', class: 'topic-index-icon' %>
+          <% end %>
+          <%= @topic.favorite_users.count %>
 
-                <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
-            <% end %>
-            <% else %>
-            <%= link_to("/favorites/#{@topic.id}/destroy", {method: "delete"}) do %>
-                <%= image_tag 'icons/heart-pink.png', class: 'topic-index-icon' %>
+          <%# 一覧へ戻るアイコンを表示 %>
+          <%= link_to '/topics?' + lstScrTopParamName + '=' + @lstScrTop.to_s, method: :get do %>
+            <%= image_tag 'icons/topic.png', class: 'topic-index-icon' %>
+          <% end %>
 
+          <p class="topic-text">
+            <%= @topic.description %>
+          </p>
+          <%# コメントの表示 %>
+          <div class="comment_list">
+            <% @comments.each do |comment| %>
+              <p class="comments" data-id=<%= comment.id %>><%= comment.lines %></p>
             <% end %>
-            <% end %>
-            
-            <%= @topic.favorite_users.count %>
-
-            <%= image_tag 'icons/comment.png', class: 'topic-index-icon' %>
-            <div class="topic-box">
-            <%= simple_format(@topic.description, :class => "topic-text") %> 
-            <% if @topic.user.id == current_user.id %>
-            <%= link_to("/topics/#{@topic.id}/edit", :class => "edit-pencil-icon") do %>
-            <%= image_tag 'icons/pencil.png' %>
-            <% end %>
-            <% end %>
-            </div>
           </div>
         </div>
+        <%= form_for :comments, url: comments_path, html: {name: 'addcomment'} do |f| %>
+          <div class="form-group">
+            <%= f.label :"コメント投稿", class: "text-black" %>
+            <input type="text" name="lines" id="lines" value="" class="form-control"/>
+          </div>
+          <%= @lstScrTopTag.html_safe %>
+          <%= @scrTopTag.html_safe %>
+          <%= @topicIdTag.html_safe %>
+
+          <button id="submitbtn" class="btn-block btn-black">投稿</button>
+        <% end %>
       </div>
+    </div>
   </div>
 </div>
+<script>
+$(function(){
+  function buildcomment(comment) {
+    // 新着コメントを表示
+    if (null != comment && '' != comment) {
+      var comments = $('.comment_list').append('<p class="comments" data-id=' + comment.id + '>' + comment.lines + '</p>');
+    }
+  }
+
+  $(function(){
+    //10000ミリ秒ごとにajaxで新着コメントを問合せ
+    setInterval(update, 10000);
+  });
+  function update(){
+    if($('.comments')[0]){ //もし'comments'というクラスの要素があれば
+      var comment_id = $('.comments:last').data('id'); //一番最後のコメントIDを問い合わせに使う
+    } else { //ない場合は0を問い合わせに使う(最初のコメントが新着コメントとなる)
+      var comment_id = 0
+    }
+    $.ajax({ //ajax通信
+      url: location.href, //urlは現在のページを指定
+      type: 'GET', //メソッドを指定
+      data: { //railsに引き渡すデータは
+        comment: { id: comment_id, topic_id: $('.topic_id').val() } //このような形(paramsの形をしています)で、'id'には'comment_id'を入れる
+      },
+      dataType: 'json' //データはjson形式
+    })
+    .done(function(data){ //通信成功なら受け取ったデータ（@new_comment)を引数にとって以下のことを行う
+      $.each(data, function(i, data){ //'data'を'data'に代入してeachで回す
+        buildcomment(data); //buildcommentを呼び出す
+      });
+    })
+    .fail(function(data){ //失敗したら、何もしない
+    });
+  }
+});
+</script>
+<script>
+  var btn = document.getElementById('submitbtn');
+  btn.addEventListener('click', function() {
+    var scrtop = $(window).scrollTop();
+    const hidden = document.addcomment.scrtop;
+
+    // スクロール位置を設定
+  	hidden.value = scrtop;
+    //submit()でフォームの内容を送信
+    document.addcomment.submit();
+    // 二重送信防止
+    this.disabled=true;
+  })
+</script>
+<%= getScrTopAndSubmitJs %>
+<%= putDoScrTopJs scrTopParamName %>

@@ -15,4 +15,8 @@ class User < ApplicationRecord
   has_many :favorites
   has_many :favorite_topics, through: :favorites, source: 'topic'
 
+  # 松田追加 コメントは一つの記事に複数登録可なので、記事の重複を無くす
+  # コメント済みの記事一覧は、作成日時の降順で取得する
+  has_many :comments
+  has_many :commented_topics, -> { distinct.order('created_at dsc') }, through: :comments, source: 'topic'
 end

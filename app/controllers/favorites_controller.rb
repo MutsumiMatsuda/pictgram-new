@@ -5,20 +5,30 @@ class FavoritesController < ApplicationController
   # binding.pry
   end
 
-  def create
+  def show
+    render 'index'
+  end
+
+  def add
+#binding.pry
     favorite = Favorite.new
     favorite.user_id = current_user.id
     favorite.topic_id = params[:topic_id]
 
+    # 松田変更ここから
     if favorite.save
-      redirect_to topics_path, success: 'お気に入りに登録しました'
+      redirect_to setScrTop2Url(topics_path, getLstScrTopParamName, getLstScrTopFromParameter), success: 'お気に入りに登録しました'
     else
-      redirect_to topics_path, danger: 'お気に入りに登録に失敗しました'
+      redirect_to setScrTop2Url(topics_path, getLstScrTopParamName, getLstScrTopFromParameter), danger: 'お気に入りに登録に失敗しました'
     end
   end
-  def destroy
+
+  def remove
     favorite = Favorite.find_by(user_id: current_user.id, topic_id: params[:topic_id])
     favorite.destroy
-    redirect_to topics_path, warning: 'お気に入りを削除しました'
+    #redirect_to topics_path, warning: 'お気に入りを削除しました'
+    redirect_to setScrTop2Url(topics_path, getLstScrTopParamName, getLstScrTopFromParameter), warning: 'お気に入りを削除しました'
+    # 松田変更ここまで
   end
+
 end
