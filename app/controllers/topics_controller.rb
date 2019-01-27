@@ -61,7 +61,7 @@ class TopicsController < ApplicationController
 
   def edit
     @topic = Topic.find_by(id: params[:id])
-    if !@topic || current_user.id != @topic.user_id
+    if !@topic || current_user.admin? && current_user.id != @topic.user_id
       redirect_to user_path(current_user.id), warning: '権限がありません'
     end
   end

@@ -10,10 +10,10 @@
             <%= image_tag 'icons/profile-no-image.png' %>
           <% end %>
           </figure>
-          <div class="user-profile__content"> 
+          <div class="user-profile__content">
             <h1 class="profile__content--name"><%= @user.name %></h1>
             <p class="profile__content--description"><%= @user.description %></p>
-            <% if @user.id == current_user.id %>
+            <% if current_user.admin? || @user.id == current_user.id %>
 
             <%= link_to("/users/#{@user.id}/edit", :class => "edit-pencil-icon") do %>
             <%= image_tag 'icons/pencil.png' %>
@@ -39,8 +39,9 @@
             <h2 class="topic-author">
               <%= topic.user.name %>
             </h2>
+            <%= link_to topic_path(topic.id) do %>
             <%= image_tag topic.image.url %>
-
+            <% end %>
             <% if !topic.favorite_users.include?(current_user) %>
             <%= link_to favorites_path(topic_id: topic.id), method: :post do %>
 
@@ -62,7 +63,7 @@
       <%= truncate_description(topic.description) %>
       </div>
             <% end %>
-            <% if topic.user.id == current_user.id %>
+            <% if current_user.admin? || topic.user.id == current_user.id %>
             <%= link_to("/topics/#{topic.id}/edit", :class => "edit-pencil-icon") do %>
             <%= image_tag 'icons/pencil.png' %>
             <% end %>

@@ -1,7 +1,7 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.user-profile{
+.user-profile,.user-index-single{
   margin-top: 30px;
   display: flex;
   align-items: center;
@@ -10,21 +10,53 @@
   }
   .user-profile__media{
     margin-right: 30px;
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
     img{
       border-radius: 50%;
       width: 130px;
       height: 130px;
       overflow: hidden;
       object-fit: cover;
-    } 
+    }
   }
   .profile__content--name{
     font-size: 30px;
   @media (max-width: 768px) {
     font-size: 22px;
-  }  }
+  }
+ }
   .profile__content--description{
     font-size: 12px;
   }
+}
+.user-index-single{
+  align-items: flex-start;
+  @media (max-width: 768px) {
+    flex-direction: row;
+  }
+  .user-profile__media{
+    margin-right: 30px;
+    margin-top: 8px;
 
+  @media (max-width: 768px) {
+    margin-right: 20px;
+  }
+    img{
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    object-fit: cover;
+  @media (max-width: 768px) {
+      width: 100px;
+      height: 100px;
+      }
+    }
+  }
+
+}
+.users-index{
+  padding-top: 120px;
 }

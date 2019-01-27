@@ -1,0 +1,26 @@
+<div class="topic-index-wrapper users-index">
+  <div class="container">
+    <h1 class="text-center">Users</h1>
+    <% @users.each do |user| %>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <%= link_to user_path(user.id) do %>
+          <div class="user-index-single">
+          <figure class="user-profile__media">
+          <% if user.image? %>
+            <%= image_tag user.image.url %>
+          <% else %>
+            <%= image_tag 'icons/profile-no-image.png' %>
+          <% end %>
+          </figure>
+          <div class="user-profile__content">
+            <h2 class="profile__content--name"><%= user.name %></h2>
+            <p class="profile__content--description"><%= user.description %></p>
+          </div>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -6,10 +6,11 @@
           <h2 class="topic-author"><%= @topic.user.name %></h2>
           <%= image_tag @topic.image.url %>
 
+          <%# いいねアイコンの表示 %>
           <% if !@topic.favorite_users.include?(current_user) %>
-            <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
+            <%= scrTopIcon '/favorites/addfromshow?topic_id=' + @topic.id.to_s + '&' + scrTopParamName, 'icons/heart-black.png', 'topic-index-icon' %>
           <% else %>
-            <%= image_tag 'icons/heart-pink.png', class: 'topic-index-icon' %>
+            <%= scrTopIcon '/favorites/removefromshow?topic_id=' + @topic.id.to_s + '&' + scrTopParamName, 'icons/heart-pink.png', 'topic-index-icon' %>
           <% end %>
           <%= @topic.favorite_users.count %>
 
@@ -18,9 +19,15 @@
             <%= image_tag 'icons/topic.png', class: 'topic-index-icon' %>
           <% end %>
 
-          <p class="topic-text">
-            <%= @topic.description %>
-          </p>
+          <div class="topic-box">
+            <%= simple_format(@topic.description, :class => "topic-text") %>
+            <% if current_user.admin? || @topic.user.id == current_user.id %>
+              <%= link_to("/topics/#{@topic.id}/edit", :class => "edit-pencil-icon") do %>
+                <%= image_tag 'icons/pencil.png' %>
+              <% end %>
+            <% end %>
+          </div>
+
           <%# コメントの表示 %>
           <div class="comment_list">
             <% @comments.each do |comment| %>
@@ -94,5 +101,5 @@ $(function(){
     this.disabled=true;
   })
 </script>
-<%= getScrTopAndSubmitJs %>
+<%= getScrTopJs %>
 <%= putDoScrTopJs scrTopParamName %>

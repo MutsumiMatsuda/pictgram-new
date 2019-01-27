@@ -1,7 +1,11 @@
 class UsersController < ApplicationController
 
   def index
-    @users = User.all.order(created_at: :desc)
+    if current_user.admin?
+      @users = User.all.order(created_at: :desc)
+      render :index
+    else redirect_to user_path(current_user.id), warning: '権限がありません'
+    end
   end
 
   def show
@@ -12,7 +16,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
-  
+
   def create
      @user = User.new(user_params)
      @user.description = "こんにちは！#{@user.name}です！"
@@ -25,12 +29,14 @@ class UsersController < ApplicationController
      render :new
    end
   end
+
   def edit
     @user = User.find_by(id: params[:id])
-        if !@user || current_user.id != @user.id
+        if !@user || !current_user.admin? && current_user.id != @user.id
     redirect_to edit_user_path(current_user.id), warning: '権限がありません'
     end
   end
+
   def update
     @user = User.find_by(id: params[:id])
     # binding.pry
@@ -41,8 +47,9 @@ class UsersController < ApplicationController
       render("users/edit")
     end
   end
+
   private
   def user_params
-  params.require(:user).permit(:name, :email, :description, :image, :remove_image, :image_cache, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :description, :image, :remove_image, :image_cache, :password, :password_confirmation)
   end
 end

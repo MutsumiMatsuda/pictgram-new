@@ -29,14 +29,31 @@
 
         <ul class="nav navbar-nav navbar-right">
           <% if logged_in? %>
+            <% if current_user.admin? %>
+              <li>
+              <%= link_to("/users") do %>
+                <%= image_tag 'icons/users.png' %>
+              <% end %>
+            </li>
+            <% end %>
               <li>
               <%= link_to("/users/#{current_user.id}") do %>
                 <%= image_tag 'icons/my-page.png' %>
               <% end %>
             </li>
             <li>
+              <%= link_to favorites_path do %>
+                <%= image_tag 'icons/heart.png' %>
+              <% end %>
+            </li>
+            <li>
               <%= link_to new_topic_path do %>
                 <%= image_tag "icons/camera.png" %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to '/topics' do %>
+                <%= image_tag "icons/topic_white.png" %>
               <% end %>
             </li>
             <li>

@@ -50,17 +50,6 @@ module ApplicationHelper
       "\</script\>\n"
     return script.html_safe
   end
-  def getScrTopAndSubmitJs
-    script =
-      "\<script\>\n" +
-      "  // リンク押下時にページ表示位置をパラメータとしてURLに付与して画面遷移\n" +
-      "  function jumpWithScrTop(\$url) {\n" +
-      "    var scrtop = \$(window).scrollTop();       // 送信時の位置情報を取得\n" +
-      "    location.href = \$url+'='+scrtop;\n" +
-      "  }\n" +
-      "\</script\>\n"
-    return script.html_safe
-  end
 
   def putDoScrTopJs(paramName)
     script =

@@ -33,15 +33,7 @@ h1, h2 {
     color: #fff;
   }
 }
-.topic-index-wrapper{
-  height: auto;
-  @media (max-width: 580px) {
-  padding-top: 65px !important;
-  }
-  @media (max-width: 414px) {
-  padding-top: 54px !important;
-  }
-}
+
 
 .top-hero-wrapper {
 	width: 100vw;
@@ -60,7 +52,7 @@ h1, h2 {
   h1 {
     font-size: 56px;
     margin-bottom: 20px;
-
+    
   }
 
   h2 {
@@ -85,9 +77,10 @@ h1, h2 {
   background-color: #464646;
 
   .container {
-    @media (max-width:768px){
+@media (max-width:768px){
     width: inherit;
-    }
+  }
+  
     .form-group {
       margin-bottom: 20px;
     }
@@ -196,6 +189,15 @@ h1, h2 {
         height: auto;
       }
     }
+  }
+}
+.topic-index-wrapper{
+  height: auto;
+  @media (max-width: 580px) {
+  padding-top: 65px;
+  }
+  @media (max-width: 414px) {
+  padding-top: 54px;
   }
 }
 #error_explanation{

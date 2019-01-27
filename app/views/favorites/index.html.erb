@@ -17,8 +17,9 @@
             <h2 class="topic-author">
             <%= link_to(topic.user.name, "users/#{topic.user_id}") %>
             </h2>
+            <%= link_to topic_path(topic.id) do %>
             <%= image_tag topic.image.url %>
-
+            <% end %>
 
 
             <% if !topic.favorite_users.include?(current_user) %>
@@ -43,13 +44,13 @@
         <%= truncate_description(topic.description) %>
       </div>
       <% end %>
-            <% if topic.user.id == current_user.id %>
+            <% if current_user.admin? || topic.user.id == current_user.id %>
             <%= link_to("/topics/#{topic.id}/edit", :class => "edit-pencil-icon") do %>
             <%= image_tag 'icons/pencil.png' %>
             <% end %>
             <% end %>
           </div>
-        
+
         </div>
       </div>
       </div>
