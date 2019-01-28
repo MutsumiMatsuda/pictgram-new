@@ -4,8 +4,8 @@ CarrierWave.configure do |config|
     #aws_access_key_id: ENV['AWS_S3_ACCESS_KEY'],
     #aws_secret_access_key: ENV['AWS_S3_SECRET_KEY'],
     #region: ENV['AWS_S3_REGION'],
-    aws_access_key_id: 'AKIAJQO7SHRYUD5UAL5A',
-    aws_secret_access_key: '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',
+    aws_access_key_id: 'AKIAJN2CV4URH4O66Q7A',
+    aws_secret_access_key: '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',
     region: 'ap-northeast-1',
     path_style: true
   }
