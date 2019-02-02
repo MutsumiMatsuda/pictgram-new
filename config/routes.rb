@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   get '/comments', to: 'comments#index'
   get '/comments/new?topic_id=#&scrtop=#', to: 'comments#new'
   post '/comments', to: 'comments#create'
+  get '/comments/delete', to: 'comments#delete'
 
   # get 'users/:id' => 'users#show'
 end

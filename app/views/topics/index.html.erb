@@ -7,9 +7,11 @@
             <h2 class="topic-author">
             <%= link_to(topic.user.name, "users/#{topic.user_id}")%>
             </h2>
-            <%= link_to("topics/#{topic.id}") do %>
-              <%= image_tag topic.image.url %>
-            <% end %>
+            <%#= link_to("topics/#{topic.id}") do %>
+              <%#= image_tag topic.image.url %>
+            <%# end %>
+            <%# 詳細ページへのリンクを付けて画像を表示 %>
+            <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&' + lstScrTopParamName, topic.image.url, 'topic-image' %>
 
             <%# 松田変更ここから %>
             <% if !topic.favorite_users.include?(current_user) %>

@@ -31,7 +31,7 @@
           <%# コメントの表示 %>
           <div class="comment_list">
             <% @comments.each do |comment| %>
-              <p class="comments" data-id=<%= comment.id %>><%= comment.lines %></p>
+              <p class="comments" data-id=<%= comment.id %>><%= comment.lines.html_safe %></p>
             <% end %>
           </div>
         </div>

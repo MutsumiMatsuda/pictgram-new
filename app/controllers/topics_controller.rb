@@ -36,6 +36,22 @@ class TopicsController < ApplicationController
       @topicIdTag = hiddenTag 'topic_id', @topic_id
 
       @topic = Topic.find_by(id: @topic_id)
+
+      # 表示用のコメントを編集する
+      @topic.comments.each do |comment|
+        lines = comment.user.name + '： ' + comment.lines
+        # Admin 又は ログインユーザのコメントには削除リンクを追加
+        if current_user.admin? || current_user.id == comment.user_id
+            lines += '<a href="/comments/delete?'
+            lines += 'id=' + comment.id.to_s
+            lines += '&' + getLstScrTopParamName + '=' + @lstScrTop.to_s
+            lines += '&' + getScrTopParamName + '=' + @scrtop.to_s
+            lines += '&' + 'topic_id' + '=' + @topic_id.to_s
+            lines += '"><span style="color:#ff0000;">　×</span></a>'
+        end
+        comment.lines = lines
+      end
+
       @comments = @topic.comments
 
       lastCommentId = 0
