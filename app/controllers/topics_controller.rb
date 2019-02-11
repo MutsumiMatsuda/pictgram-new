@@ -18,48 +18,65 @@ class TopicsController < ApplicationController
   def show
     # 松田追加
     respond_to do |format|
-    # html形式でアクセスがあった場合は特に何もなし(@messages = Message.allして終わり）
-    format.html
-    # json形式でアクセスがあった場合は、params[:message][:id]よりも大きいidがないかMessageから検索して、@new_messageに代入する
-    format.json { @new_comment = Comment.where('id > ? AND topic_id = ?', params[:comment][:id], params[:comment][:topic_id]) }
-    end
+      # html形式でアクセスがあった場合
+      format.html {
 
-    # トピックや画面表示位置のパラメータが無ければ一覧へ飛ばす
-    if nilOrEmpty?(params[:topic_id]) || (nilOrEmpty?(params[getScrTopParamNameAsSym]) && nilOrEmpty?(params[getLstScrTopParamNameAsSym]))
-      redirect_to topics_path
-    else
-      # 一覧の表示位置をpostで持ち回る
-      setAllInstanceValForTopicShow
+        # トピックや画面表示位置のパラメータが無ければ一覧へ飛ばす
+        if nilOrEmpty?(params[:topic_id]) || (nilOrEmpty?(params[getScrTopParamNameAsSym]) && nilOrEmpty?(params[getLstScrTopParamNameAsSym]))
+          redirect_to topics_path
+        else
+          # 一覧の表示位置をpostで持ち回る
+          setAllInstanceValForTopicShow
 
-      @lstScrTopTag = hiddenTag getLstScrTopParamName, @lstScrTop
-      @scrTopTag = hiddenTag getScrTopParamName, @scrtop
-      @topicIdTag = hiddenTag 'topic_id', @topic_id
+          @lstScrTopTag = hiddenTag getLstScrTopParamName, @lstScrTop
+          @scrTopTag = hiddenTag getScrTopParamName, @scrtop
+          @topicIdTag = hiddenTag 'topic_id', @topic_id
 
-      @topic = Topic.find_by(id: @topic_id)
+          @topic = Topic.find_by(id: @topic_id)
 
-      # 表示用のコメントを編集する
-      @topic.comments.each do |comment|
-        lines = comment.user.name + '： ' + comment.lines
-        # Admin 又は ログインユーザのコメントには削除リンクを追加
-        if current_user.admin? || current_user.id == comment.user_id
-            lines += '<a href="/comments/delete?'
-            lines += 'id=' + comment.id.to_s
-            lines += '&' + getLstScrTopParamName + '=' + @lstScrTop.to_s
-            lines += '&' + getScrTopParamName + '=' + @scrtop.to_s
-            lines += '&' + 'topic_id' + '=' + @topic_id.to_s
-            lines += '"><span style="color:#ff0000;">　×</span></a>'
+          # 戻り先のURLを設定
+          @listUrl = '/topic'
+          @listIcon = 'icons/back-to-topics.png'
+          if params[:lst].present?
+            @listUrl = '/' + params[:lst]
+            if @listUrl == '/favorites'
+              @listIcon = 'icons/back-to-favorits.png'
+            elsif @listUrl == '/users'
+              @listUrl += '/' + current_user.id.to_s
+              @listIcon = 'icons/back-to-user.png'
+            end
+          end
+
+          # 表示用のコメントを編集する
+          @topic.comments.each do |comment|
+            lines = comment.user.name + '： ' + comment.lines
+            # Admin 又は ログインユーザのコメントには削除リンクを追加
+            if current_user.admin? || current_user.id == comment.user_id
+                lines += '<a href="/comments/delete?'
+                lines += 'id=' + comment.id.to_s
+                lines += '&' + getLstScrTopParamName + '=' + @lstScrTop.to_s
+                lines += '&' + getScrTopParamName + '=' + @scrtop.to_s
+                lines += '&' + 'topic_id' + '=' + @topic_id.to_s
+                lines += '"><span style="color:#ff0000;">　×</span></a>'
+            end
+            comment.lines = lines
+          end
+
+          @comments = @topic.comments
+
+          lastCommentId = 0
+          if @topic.comments.count > 0
+            lastCommentId = @topic.comments.last.id;
+          end
+
+          render :show
         end
-        comment.lines = lines
-      end
+      }
 
-      @comments = @topic.comments
-
-      lastCommentId = 0
-      if @topic.comments.count > 0
-        lastCommentId = @topic.comments.last.id;
-      end
-
-      render :show
+      # json形式でアクセスがあった場合は、params[:message][:id]よりも大きいidがないかMessageから検索して、@new_messageに代入する
+      format.json {
+        @new_comment = Comment.where('id > ? AND topic_id = ?', params[:comment][:id], params[:comment][:topic_id])
+      }
     end
 
   end

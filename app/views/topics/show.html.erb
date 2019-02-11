@@ -8,15 +8,15 @@
 
           <%# いいねアイコンの表示 %>
           <% if !@topic.favorite_users.include?(current_user) %>
-            <%= scrTopIcon '/favorites/addfromshow?topic_id=' + @topic.id.to_s + '&' + scrTopParamName, 'icons/heart-black.png', 'topic-index-icon' %>
+            <%= scrTopIcon '/favorites/addfromshow?topic_id=' + @topic.id.to_s + '&' + lstScrTopParamName + '=' + @lstScrTop.to_s + '&' + scrTopParamName, 'icons/heart-black.png', 'topic-index-icon' %>
           <% else %>
-            <%= scrTopIcon '/favorites/removefromshow?topic_id=' + @topic.id.to_s + '&' + scrTopParamName, 'icons/heart-pink.png', 'topic-index-icon' %>
+            <%= scrTopIcon '/favorites/removefromshow?topic_id=' + @topic.id.to_s + '&' + lstScrTopParamName + '=' + @lstScrTop.to_s + '&' + scrTopParamName, 'icons/heart-pink.png', 'topic-index-icon' %>
           <% end %>
           <%= @topic.favorite_users.count %>
 
           <%# 一覧へ戻るアイコンを表示 %>
-          <%= link_to '/topics?' + lstScrTopParamName + '=' + @lstScrTop.to_s, method: :get do %>
-            <%= image_tag 'icons/topic.png', class: 'topic-index-icon' %>
+          <%= link_to @listUrl + '?' + lstScrTopParamName + '=' + @lstScrTop.to_s, method: :get do %>
+            <%= image_tag @listIcon, class: 'topic-index-icon' %>
           <% end %>
 
           <div class="topic-box">

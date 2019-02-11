@@ -11,7 +11,7 @@
               <%#= image_tag topic.image.url %>
             <%# end %>
             <%# 詳細ページへのリンクを付けて画像を表示 %>
-            <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&' + lstScrTopParamName, topic.image.url, 'topic-image' %>
+            <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&lst=topics' + '&' + lstScrTopParamName, topic.image.url, 'topic-image' %>
 
             <%# 松田変更ここから %>
             <% if !topic.favorite_users.include?(current_user) %>
@@ -22,8 +22,7 @@
             <%= topic.favorite_users.count %>
 
             <%# 詳細ページへのアイコンを表示 %>
-            <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&' + lstScrTopParamName, 'icons/comment.png', 'topic-index-icon' %>
-
+            <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&lst=topics' + '&' + lstScrTopParamName, 'icons/comment.png', 'topic-index-icon' %>
             <%= topic.comments.count %>
             <%# 松田変更ここまで %>
 

@@ -4,20 +4,19 @@
       <div class="col-md-6 col-md-offset-3">
         <div class="user-profile">
           <figure class="user-profile__media">
-          <% if @user.image? %>
-            <%= image_tag @user.image.url %>
-          <% else %>
-            <%= image_tag 'icons/profile-no-image.png' %>
-          <% end %>
+            <% if @user.image? %>
+              <%= image_tag @user.image.url %>
+            <% else %>
+              <%= image_tag 'icons/profile-no-image.png' %>
+            <% end %>
           </figure>
           <div class="user-profile__content">
             <h1 class="profile__content--name"><%= @user.name %></h1>
             <p class="profile__content--description"><%= @user.description %></p>
             <% if current_user.admin? || @user.id == current_user.id %>
-
-            <%= link_to("/users/#{@user.id}/edit", :class => "edit-pencil-icon") do %>
-            <%= image_tag 'icons/pencil.png' %>
-            <% end %>
+              <%= link_to("/users/#{@user.id}/edit", :class => "edit-pencil-icon") do %>
+                <%= image_tag 'icons/pencil.png' %>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -32,47 +31,46 @@
       </div>
     <% else%>
 
-    <% @topics.each do |topic| %>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <div class="topic-index-single">
-            <h2 class="topic-author">
-              <%= topic.user.name %>
-            </h2>
-            <%= link_to topic_path(topic.id) do %>
-            <%= image_tag topic.image.url %>
-            <% end %>
-            <% if !topic.favorite_users.include?(current_user) %>
-            <%= link_to favorites_path(topic_id: topic.id), method: :post do %>
+      <% @topics.each do |topic| %>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="topic-index-single">
+              <h2 class="topic-author"><%= topic.user.name %></h2>
 
-                <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
-            <% end %>
-            <% else %>
-            <%= link_to("/favorites/#{topic.id}/destroy", {method: "delete"}) do %>
-                <%= image_tag 'icons/heart-pink.png', class: 'topic-index-icon' %>
+              <%# 詳細ページへのリンクを付けて画像を表示 %>
+              <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&lst=users' + '&' + lstScrTopParamName, topic.image.url, 'topic-image' %>
 
-            <% end %>
-            <% end %>
-            <%= topic.favorite_users.count %>
+              <%# いいねアイコンの表示 %>
+              <% if !topic.favorite_users.include?(current_user) %>
+                <%= scrTopIcon '/favorites/addfromusers?topic_id=' + topic.id.to_s + '&' + lstScrTopParamName, 'icons/heart-black.png', 'topic-index-icon' %>
+              <% else %>
+                <%= scrTopIcon '/favorites/removefromusers?topic_id=' + topic.id.to_s + '&' + lstScrTopParamName, 'icons/heart-pink.png', 'topic-index-icon' %>
+              <% end %>
+              <%= topic.favorite_users.count %>
 
-            <%= image_tag 'icons/comment.png', class: 'topic-index-icon' %>
-            <div class="topic-box">
+              <%# 詳細ページへのリンクアイコン %>
+              <%= scrTopIcon '/topics/show?topic_id=' + topic.id.to_s + '&lst=users' + '&' + lstScrTopParamName, 'icons/comment.png', 'topic-index-icon' %>
+              <%= topic.comments.count %>
 
-            <%= link_to topic_path(topic.id) do %>
-      <div class="topic-text">
-      <%= truncate_description(topic.description) %>
-      </div>
-            <% end %>
-            <% if current_user.admin? || topic.user.id == current_user.id %>
-            <%= link_to("/topics/#{topic.id}/edit", :class => "edit-pencil-icon") do %>
-            <%= image_tag 'icons/pencil.png' %>
-            <% end %>
-            <% end %>
+              <div class="topic-box">
+                <%= link_to topic_path(topic.id) do %>
+                  <div class="topic-text">
+                    <%= truncate_description(topic.description) %>
+                  </div>
+                <% end %>
+                <% if current_user.admin? || topic.user.id == current_user.id %>
+                  <%= link_to("/topics/#{topic.id}/edit", :class => "edit-pencil-icon") do %>
+                    <%= image_tag 'icons/pencil.png' %>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
     <% end %>
   </div>
 </div>
+<%= @lstScrTopTag.html_safe %>
+<%= getScrTopJs %>
+<%= putDoScrTopJs lstScrTopParamName %>

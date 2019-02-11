@@ -37,7 +37,10 @@ Rails.application.routes.draw do
   get '/favorites/remove', to: 'favorites#remove'
   get '/favorites/addfromshow', to: 'favorites#addfromshow'
   get '/favorites/removefromshow', to: 'favorites#removefromshow'
-
+  get '/favorites/addfromfavorites', to: 'favorites#addfromfavorites'
+  get '/favorites/removefromfavorites', to: 'favorites#removefromfavorites'
+  get '/favorites/addfromusers', to: 'favorites#addfromusers'
+  get '/favorites/removefromusers', to: 'favorites#removefromusers'
   # get 'users/:id' => 'users#show'
 
   get '/comments', to: 'comments#index'

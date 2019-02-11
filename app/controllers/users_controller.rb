@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(id: params[:id])
     @topics = Topic.where(user_id: params[:id]).order(created_at: :desc)
+    @lstScrTop = getLstScrTopFromParameter
+    @lstScrTopTag = hiddenTag getLstScrTopParamName, @lstScrTop
   end
 
   def new
@@ -23,7 +25,7 @@ class UsersController < ApplicationController
 
    if @user.save
       session[:user_id] = @user.id
-     redirect_to topics_path, success: '登録が完了しました'
+      redirect_to topics_path, success: '登録が完了しました'
    else
      flash.now[:danger] = '登録に失敗しました'
      render :new
