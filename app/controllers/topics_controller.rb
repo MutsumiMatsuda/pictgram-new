@@ -35,7 +35,7 @@ class TopicsController < ApplicationController
           @topic = Topic.find_by(id: @topic_id)
 
           # 戻り先のURLを設定
-          @listUrl = '/topic'
+          @listUrl = '/topics'
           @listIcon = 'icons/back-to-topics.png'
           if params[:lst].present?
             @listUrl = '/' + params[:lst]
@@ -49,17 +49,7 @@ class TopicsController < ApplicationController
 
           # 表示用のコメントを編集する
           @topic.comments.each do |comment|
-            lines = comment.user.name + '： ' + comment.lines
-            # Admin 又は ログインユーザのコメントには削除リンクを追加
-            if current_user.admin? || current_user.id == comment.user_id
-                lines += '<a href="/comments/delete?'
-                lines += 'id=' + comment.id.to_s
-                lines += '&' + getLstScrTopParamName + '=' + @lstScrTop.to_s
-                lines += '&' + getScrTopParamName + '=' + @scrtop.to_s
-                lines += '&' + 'topic_id' + '=' + @topic_id.to_s
-                lines += '"><span style="color:#ff0000;">　×</span></a>'
-            end
-            comment.lines = lines
+            comment.lines = compile_lines(comment)
           end
 
           @comments = @topic.comments
@@ -75,7 +65,11 @@ class TopicsController < ApplicationController
 
       # json形式でアクセスがあった場合は、params[:message][:id]よりも大きいidがないかMessageから検索して、@new_messageに代入する
       format.json {
-        @new_comment = Comment.where('id > ? AND topic_id = ?', params[:comment][:id], params[:comment][:topic_id])
+        newcomments = Comment.where('id > ? AND topic_id = ?', params[:comment][:id], params[:comment][:topic_id])
+        newcomments.each do |comment|
+          comment.lines = compile_lines(comment)
+        end
+        @new_comment = newcomments
       }
     end
 
@@ -116,10 +110,23 @@ class TopicsController < ApplicationController
     redirect_to topics_path, warning: '投稿を削除しました'
   end
 
-
-
   private
   def topic_params
     params.require(:topic).permit(:image, :description)
+  end
+
+  # コメントを編集する
+  def compile_lines(comment)
+    lines = comment.user.name + '： ' + comment.lines
+    # Admin 又は ログインユーザのコメントには削除リンクを追加
+    if current_user.admin? || current_user.id == comment.user_id
+        lines += '<a href="/comments/delete?'
+        lines += 'id=' + comment.id.to_s
+        lines += '&' + getLstScrTopParamName + '=' + @lstScrTop.to_s
+        lines += '&' + getScrTopParamName + '=' + @scrtop.to_s
+        lines += '&' + 'topic_id' + '=' + @topic_id.to_s
+        lines += '"><span style="color:#ff0000;">　×</span></a>'
+    end
+    return lines
   end
 end
