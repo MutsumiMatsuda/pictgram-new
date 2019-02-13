@@ -60,7 +60,7 @@ class FavoritesController < ApplicationController
     if favorite.save
       redirect_to url, success: 'お気に入りに登録しました'
     else
-      redirect_to url, danger: 'お気に入りに登録に失敗しました'
+      redirect_to url, danger: 'お気に入りの登録に失敗しました'
     end
   end
 
