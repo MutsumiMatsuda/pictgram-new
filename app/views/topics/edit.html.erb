@@ -17,7 +17,7 @@
             <%= f.label :image %>
             <!--<%= f.file_field :image %>-->
             <figure class="thumbnail">
-            <%= image_tag @topic.image.url %>
+              <%= image_tag @topic.image.url %>
             </figure>
           </div>
 
@@ -29,9 +29,10 @@
 
           <%= f.submit '更新', class: 'btn btn-black btn-block' %>
           <%= link_to("/topics/#{@topic.id}/", {method: "delete"}) do %>
-          <button class="btn btn-danger btn-block">削除</button>
+            <button class="btn btn-danger btn-block">削除</button>
           <% end %>
 
+          <%# hidden tag でパラメータを持ち回る %>
 
         <% end %>
       </div>

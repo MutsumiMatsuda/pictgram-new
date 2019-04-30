@@ -16,7 +16,7 @@ module Pictgram
     # the framework and any gems in your application.
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
-      config.assets.initialize_on_precompile = false
+    config.assets.initialize_on_precompile = false
 
   end
 end

@@ -1,6 +1,13 @@
 ---
 ja:
   activerecord:
+    attributes:
+      sessions:
+          name: 名前
+          yomi: ヨミガナ
+          phone: 電話番号
+          email: メールアドレス
+          password: パスワード
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"

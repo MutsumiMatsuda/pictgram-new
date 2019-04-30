@@ -5,11 +5,11 @@
         <h1 class="text-center text-white">Log in</h1>
         <%= form_for :session, url: login_path do |f| %>
           <div class="form-group">
-            <%= f.label :メールアドレス, class: "text-white" %>
+            <%= f.label :email, class: "text-white" %>
             <%= f.text_field :email, class: "form-control" %>
           </div>
           <div class="form-group">
-            <%= f.label :パスワード, class: "text-white" %>
+            <%= f.label :password, class: "text-white" %>
             <%= f.password_field :password, class: "form-control" %>
           </div>
 

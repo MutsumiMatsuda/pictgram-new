@@ -20,10 +20,8 @@ module ApplicationHelper
     return 'lstScrtop'
   end
 
-  # Icon画像に特定のアクションに画面表示位置をパラメータとして渡すリンクのhtmlタグを出力
+  # Icon画像に特定のアクションへ画面表示位置をパラメータとして渡すリンクのhtmlタグを出力
   # @param [string] コントローラへのpath
-  # @param [string] コントローラのaction名
-  # @param [integer] コントローラへ渡すid
   # @param [string] アイコンの画像パス
   # @param [string] アイコンのcssクラス名
   # @return [string] 画面表示位置をパラメータとして渡すリンクのhtmlタグ
@@ -31,6 +29,20 @@ module ApplicationHelper
     imgTag = image_tag iconPath, {class: cssCls}
     tagStr =
     "\<a rel=\"nofollow\" href=\"javascript:void(0);\" onclick=\"jumpWithScrTop('" + url + "');\"\>\n" +
+    "  " + imgTag + "\n" +
+    "\<\/a\>\n"
+    return tagStr.html_safe
+  end
+
+  # 記事編集用Icon画像に特定のアクションへ画面表示位置をパラメータとして渡すリンクのhtmlタグを出力
+  # @param [string] コントローラへのpath
+  # @param [string] アイコンの画像パス
+  # @param [string] アイコンのcssクラス名
+  # @return [string] 画面表示位置をパラメータとして渡すリンクのhtmlタグ
+  def scrTopEditIcon(url, iconPath, cssCls)
+    imgTag = image_tag iconPath
+    tagStr =
+    "\<a rel=\"nofollow\" class=\"" + cssCls + "\" href=\"javascript:void(0);\" onclick=\"jumpWithScrTop('" + url + "');\"\>\n" +
     "  " + imgTag + "\n" +
     "\<\/a\>\n"
     return tagStr.html_safe
