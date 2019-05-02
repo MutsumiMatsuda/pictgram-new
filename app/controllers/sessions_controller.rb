@@ -3,9 +3,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    binding.pry
-    @user = User.find_by(email: email_params)
-   if @user && @user.authenticate(password_params)
+    #binding.pry
+    @user = User.find_by(email: email_params[:email])
+   if @user && @user.authenticate(password_params[:password])
      log_in @user
      redirect_to "/users/#{@user.id}", success: "ログインに成功しました"
    else

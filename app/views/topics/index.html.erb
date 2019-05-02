@@ -32,7 +32,7 @@
                 <%= truncate_description(topic.description) %>
               </div>
             <% end %>
-            <% if current_user.admin? || topic.user.id == current_user.id %>
+            <% if logged_in? && (current_user.admin? || topic.user.id == current_user.id) %>
               <%#= link_to("/topics/#{topic.id}/edit", :class => "edit-pencil-icon") do %>
                 <%#= image_tag 'icons/pencil.png' %>
               <%# end %>
